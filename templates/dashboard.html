@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Event Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 15px;
+            background-color: #f4f4f4;
+        }
+        .nav-links a {
+            display: block;
+            padding: 12px;
+            background: #333;
+            color: white;
+            text-align: center;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        .nav-links a:hover {
+            background: #555;
+        }
+        ul {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hello, {{ username }}</h1>
+    <div class="nav-links">
+        <a href="/questions">Ask a Question</a>
+        {% if current_user.is_admin %}
+            <a href="/admin/questions">Admin: View Questions</a>
+        {% endif %}
+        <a href="/logout">Logout</a>
+    </div>
+
+    <h2>Today's Schedule</h2>
+    <ul>
+        <li>09:00 AM - Opening Ceremony</li>
+        <li>10:00 AM - Workshop 1</li>
+        <li>01:00 PM - Lunch Break</li>
+        <li>02:00 PM - Workshop 2</li>
+        <li>05:00 PM - Closing</li>
+    </ul>
+</body>
+</html>

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Submit a Question</h3>
+<form method="POST">
+    <div class="mb-3">
+        <label>Your Question</label>
+        <textarea name="question" class="form-control" required></textarea>
+    </div>
+    <div class="mb-3">
+        <label>Who is this question for?</label>
+        <select name="recipient" class="form-control" required>
+            <option value="">-- Select --</option>
+            <option>Keynote Speaker</option>
+            <option>Panelists</option>
+            <option>Workshop Leader</option>
+        </select>
+    </div>
+    <button class="btn btn-primary w-100">Submit</button>
+</form>
+
+<hr>
+<h4>Your Submitted Questions</h4>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Time</th>
+            <th>Recipient</th>
+            <th>Question</th>
+            <th>Answered</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for q in my_questions %}
+        <tr>
+            <td>{{ q['created_at'] }}</td>
+            <td>{{ q['recipient'] }}</td>
+            <td>{{ q['question'] }}</td>
+            <td>{% if q['answered'] %}✔{% else %}❌{% endif %}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

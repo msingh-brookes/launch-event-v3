@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>All Questions</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Time</th>
+            <th>From</th>
+            <th>Recipient</th>
+            <th>Question</th>
+            <th>Answered</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for q in questions %}
+        <tr>
+            <td>{{ q['created_at'] }}</td>
+            <td>{{ q['username'] }}</td>
+            <td>{{ q['recipient'] }}</td>
+            <td>{{ q['question'] }}</td>
+            <td>{% if q['answered'] %}✔{% else %}❌{% endif %}</td>
+            <td>
+                {% if not q['answered'] %}
+                <form method="POST" style="display:inline;">
+                    <input type="hidden" name="question_id" value="{{ q['id'] }}">
+                    <button type="submit" class="btn btn-sm btn-success">Mark Answered</button>
+                </form>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

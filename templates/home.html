@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+{% if username %}
+<h4>Welcome {{ username }} to the Companion App</h4>
+<div class="d-grid gap-3 col-6 mx-auto">
+    <a href="{{ url_for('agenda') }}" class="btn btn-primary">See Agenda</a>
+    <a href="{{ url_for('submit_question') }}" class="btn btn-success">Submit Question</a>
+    <a href="{{ url_for('about') }}" class="btn btn-info">Learn about X</a>
+    <a href="{{ url_for('scan') }}" class="btn btn-warning">Scan QR Code</a>
+    {% if is_admin == 1 %}
+    <a href="{{ url_for('admin_questions') }}" class="btn btn-danger">See All Questions Submitted</a>
+    {% endif %}
+    <a href="{{ url_for('logout') }}" class="btn btn-outline-dark">Logout</a>
+</div>
+{% else %}
+<p>Please <a href="{{ url_for('login') }}">log in</a> to continue.</p>
+{% endif %}
+{% endblock %}

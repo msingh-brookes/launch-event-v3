@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<h3 class="text-center mb-3">QR Code Hunt</h3>
+<div class="text-center mb-3">
+    <button id="scanBtn" class="btn btn-warning">📷 Scan Code</button>
+</div>
+
+<div id="labels" class="d-grid gap-2 col-6 mx-auto">
+    {% for i in range(1,7) %}
+        <div class="p-3 text-center border bg-secondary text-white" id="label{{ i }}">
+            Code {{ i }} Locked
+        </div>
+    {% endfor %}
+</div>
+
+<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+<script>
+document.getElementById("scanBtn").addEventListener("click", function() {
+    let html5QrCode = new Html5Qrcode("reader");
+    html5QrCode.start(
+        { facingMode: "environment" },
+        { fps: 10, qrbox: 250 },
+        qrCodeMessage => {
+            let codeNum = parseInt(qrCodeMessage.replace("CODE", ""));
+            if(codeNum >= 1 && codeNum <= 6){
+                let el = document.getElementById("label" + codeNum);
+                el.classList.remove("bg-secondary");
+                el.classList.add("bg-success");
+                el.textContent = "Code " + codeNum + " Unlocked!";
+            }
+            html5QrCode.stop();
+        },
+        errorMessage => {}
+    ).catch(err => {
+        alert("Unable to start scanning: " + err);
+    });
+});
+</script>
+
+<!-- Hidden QR reader container -->
+<div id="reader" style="width: 100%; max-width: 400px; margin: auto;"></div>
+{% endblock %}
