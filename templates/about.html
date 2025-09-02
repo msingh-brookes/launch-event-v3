@@ -1,6 +1,25 @@
 {% extends "base.html" %}
 {% block content %}
+<h2>Welcome to our Launch Event!</h2>
+<h3>About DPRIN</h3>
+<p>The Digital Product Regulatory Innovation Network (DPRIN) is a community of researchers from industry and academia interested in understanding how we can improve safety of products sold online.  We are interested in evaluating new tools, policies and practices that can improve regulation of online sales by making compliance with standards cheaper, faster, and easier.</p>
+<p>The project is a joint collaboration between Oxford Brookes University, University of Cambridge, University of Leeds, Chartered Trading Standards Institute (CTSI), and the Age Verification Providers Association (AVPA), funded by UKRI. Our first area of focus is understanding how modern digital tools could help Online Marketplaces (OMPs), Manufacturers and Importers meet product safety rules and regulations whilst ensuring minimal burden on businesses.</p>
+<p>OMPs are increasingly being required to carry out more due diligence on the compliance of the products being sold on their platforms. However, OMPs frequently cannot trust that information they are supplied with is valid, correct, or sufficient to meet the required standards. </p>
+<p>Over the past six months, the DPRIN team has been conducting a series of workshops centered around regulation of online selling of products, potential technical solutions to increase transparency, and the future of supply chains particularly with the introduction of new legislation.</p>
+<div class="text-center mb-4">
+    <video width="50%" height="auto" controls>
+        <source src="{{ url_for('static', filename='video1.mp4') }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+</div>
 <h3>About This Event</h3>
-<p>Welcome to our special one-day event! Here we explore innovation, technology, and creativity with top experts from around the world.</p>
-<p>We believe in connecting minds, inspiring ideas, and building a brighter future together.</p>
+<p>Featuring high-profile keynote speakers, this one-day event will bring together leaders, innovators, and partners to share insights, explore ideas, and foster cross-sector collaboration.</p>
+<p>What to expect:</p>
+<ul>
+    <li>Informative and inspiring keynote talks from Chartered Trading Standards Institute, InnovateUK (UK Research and Innovation), and the Office for Product Safety and Standards</li>
+    <li>Discussions and panels exploring challenges and opportunities across different sectors</li>
+    <li>Opportunities to share ideas and help shape future DPRIN initiatives and projects</li>
+</ul>
+
+<p>The event will take place at Friends House, Euston, a Quaker venue where alcohol is not permitted. For over a hundred years, the building has provided a space for many conferences, seminars, and meetings. Notable visits include Mahatma Gandhi, who came to discuss constitutional reforms in India; Martin Luther King Jr, during his visit to London ahead of his Nobel Prize ceremony; and more recently, Greta Thunberg, who attended a climate emergency event held at the site in 2019.</p>
 {% endblock %}

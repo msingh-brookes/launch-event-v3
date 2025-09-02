@@ -1,0 +1,28 @@
+/* Change the navbar background */
+.navbar {
+    background-color: #061551 !important;  /* dark blue */
+}
+
+/* Change the body background */
+body {
+    background-color: #f0f0f0;  /* light grey/blue */
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: #061551; /* default text color */
+}
+
+/* Change the navbar text color */
+.navbar .navbar-brand,
+.navbar .navbar-text,
+.navbar .nav-link {
+    color: #f0f0f0 !important;
+}
+
+/* Buttons */
+.btn-custom {
+    background-color: #ff6347;  /* orange */
+    color: #f0f0f0;
+    border: none;
+}
+.btn-custom:hover {
+    background-color: #ff6347;
+}
