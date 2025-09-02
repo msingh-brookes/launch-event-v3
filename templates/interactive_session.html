@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mb-4">Interactive Session</h2>
+
+<!-- Poll Section -->
+<div class="card mb-4">
+  <div class="card-body">
+    <h4>Vote in the Poll (Choose up to 2)</h4>
+    <form method="POST">
+      <div class="form-check">
+        {% for option in ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5", "Option 6"] %}
+          <input class="form-check-input" type="checkbox" name="options" value="{{ option }}"
+                 id="{{ option }}" {% if option in my_votes %}checked{% endif %}>
+          <label class="form-check-label" for="{{ option }}">{{ option }}</label><br>
+        {% endfor %}
+      </div>
+      <button type="submit" class="btn btn-primary mt-3">Submit Vote</button>
+      <button type="submit" name="reset" value="1" class="btn btn-secondary mt-3">Reset Choices</button>
+    </form>
+  </div>
+</div>
+<div class="card mt-4">
+  <div class="card-body">
+    <h4>Live Poll Results</h4>
+    <canvas id="pollChart"></canvas>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const ctx = document.getElementById("pollChart").getContext("2d");
+let pollChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+        labels: ["Option 1","Option 2","Option 3","Option 4","Option 5","Option 6"],
+        datasets: [{
+            label: "Votes",
+            data: [0,0,0,0,0,0],
+            backgroundColor: "rgba(54, 162, 235, 0.6)"
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: { y: { beginAtZero: true } }
+    }
+});
+
+// Auto-refresh data every 5s
+async function updatePoll() {
+    const res = await fetch("/poll_results");
+    const data = await res.json();
+    pollChart.data.datasets[0].data = pollChart.data.labels.map(opt => data[opt] || 0);
+    pollChart.update();
+}
+setInterval(updatePoll, 5000);
+updatePoll();
+</script>
+<!-- QR Code Section -->
+<div class="card mb-4">
+  <div class="card-body">
+    <h4>Scan QR Code</h4>
+    <p>Unlock content by scanning event QR codes.</p>
+    <button class="btn btn-dark">📷 Scan Code</button>
+    <!-- Here you’d hook up JS-based QR scanner like Instascan or html5-qrcode -->
+  </div>
+</div>
+
+<!-- Exhibit Info Section -->
+<div class="card">
+  <div class="card-body">
+    <h4>Exhibit Stalls</h4>
+    <h5>Stall A</h5>
+    <ul>
+      <li>Point 1 about Stall A</li>
+      <li>Point 2 about Stall A</li>
+    </ul>
+
+    <h5>Stall B</h5>
+    <ul>
+      <li>Point 1 about Stall B</li>
+      <li>Point 2 about Stall B</li>
+    </ul>
+
+    <h5>Stall C</h5>
+    <ul>
+      <li>Point 1 about Stall C</li>
+      <li>Point 2 about Stall C</li>
+    </ul>
+  </div>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const checkboxes = document.querySelectorAll("input[name='options']");
+    checkboxes.forEach(cb => {
+        cb.addEventListener("change", function () {
+            const checked = document.querySelectorAll("input[name='options']:checked");
+            if (checked.length > 2) {
+                this.checked = false; // undo the extra click
+                alert("You can only select up to 2 options.");
+            }
+        });
+    });
+});
+</script>
+
+{% endblock %}

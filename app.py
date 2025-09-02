@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, g
+from flask import Flask, render_template, request, redirect, url_for, session, g, flash, jsonify
 import sqlite3
 import time
 
@@ -100,7 +100,7 @@ def submit_question():
         return redirect(url_for('submit_question'))
     my_questions = db.execute("SELECT * FROM questions WHERE username=? ORDER BY created_at DESC",
                                (g.user['username'],)).fetchall()
-    return render_template('submit_question.html', username=g.user['username'], my_questions=my_questions)
+    return render_template('questions.html', username=g.user['username'], my_questions=my_questions)
 
 @app.route('/admin_questions', methods=['GET', 'POST'])
 def admin_questions():
@@ -114,6 +114,49 @@ def admin_questions():
         return redirect(url_for('admin_questions'))
     questions = db.execute("SELECT * FROM questions ORDER BY created_at DESC").fetchall()
     return render_template('admin_questions.html', questions=questions, username=g.user['username'])
+
+@app.route('/interactive_session', methods=['GET', 'POST'])
+def interactive_session():
+    if not hasattr(g, "user") or g.user is None:
+        return redirect(url_for('login'))
+
+    db = get_db()
+    username = g.user['username']
+
+    # Handle poll submission
+    if request.method == 'POST':
+        if 'reset' in request.form:
+            db.execute("DELETE FROM poll_votes WHERE username=?", (username,))
+            db.commit()
+        else:
+            selected = request.form.getlist('options')
+            if len(selected) > 2:
+                flash("You can only choose up to 2 options.")
+                return redirect(url_for('interactive_session'))
+            if len(selected) <= 2:
+                # Remove old votes
+                db.execute("DELETE FROM poll_votes WHERE username=?", (username,))
+                # Insert new votes
+                for option in selected:
+                    db.execute("INSERT INTO poll_votes (username, option) VALUES (?, ?)", (username, option))
+                db.commit()
+
+    # Fetch user’s current votes
+    my_votes = [row['option'] for row in db.execute("SELECT option FROM poll_votes WHERE username=?", (username,)).fetchall()]
+
+    return render_template("interactive_session.html", username=username, my_votes=my_votes)
+
+@app.route("/poll_results")
+def poll_results():
+    db = get_db()
+    results = db.execute("""
+        SELECT option, COUNT(*) as votes
+        FROM poll_votes
+        GROUP BY option
+    """).fetchall()
+    data = {row["option"]: row["votes"] for row in results}
+    return jsonify(data)
+
 
 if __name__ == '__main__':
     init_db()

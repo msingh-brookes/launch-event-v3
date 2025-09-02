@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
 {% if username %}
-<h4>Welcome {{ username }} to the Companion App</h4>
+<h4 style="text-align: center;"}>Welcome {{ username }} to the Companion App</h4>
 <div class="d-grid gap-3 col-6 mx-auto">
     <a href="{{ url_for('agenda') }}" class="btn btn-primary">See Agenda</a>
     <a href="{{ url_for('submit_question') }}" class="btn btn-success">Submit Question</a>
-    <a href="{{ url_for('about') }}" class="btn btn-info">Learn about X</a>
-    <a href="{{ url_for('scan') }}" class="btn btn-warning">Scan QR Code</a>
+    <a href="{{ url_for('interactive_session') }}" class="btn btn-warning w-100 mb-2">Interactive Session</a>
+    <a href="{{ url_for('about') }}" class="btn btn-info">Learn About DPRIN and Today's Event</a>
+    <!---<a href="{{ url_for('scan') }}" class="btn btn-warning">Scan QR Code</a>-->
     {% if is_admin == 1 %}
     <a href="{{ url_for('admin_questions') }}" class="btn btn-danger">See All Questions Submitted</a>
     {% endif %}
