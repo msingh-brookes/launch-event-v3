@@ -1,9 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h2 class="mb-4">Interactive Session</h2>
-
-<!-- Poll Section -->
+<h2 class="mb-3">Interactive Session (Admin)</h2>
 <div class="card mb-4">
   <div class="card-body">
     <h4>Vote in the Poll (Choose up to 2)</h4>
@@ -20,6 +18,9 @@
     </form>
   </div>
 </div>
+
+<hr>
+
 <div class="card mt-4">
   <div class="card-body">
     <h4>Live Poll Results</h4>
@@ -52,8 +53,6 @@ let pollChart = new Chart(ctx, {
         scales: { y: { beginAtZero: true } }
     }
 });
-
-// Auto-refresh data every 5s
 async function updatePoll() {
     const res = await fetch("/poll_results");
     const data = await res.json();
@@ -64,7 +63,6 @@ setInterval(updatePoll, 5000);
 updatePoll();
 </script>
 
-<hr>
 <!-- New Interest Submission Section -->
 <h4>What are your key interests today?</h4>
 <p class="text-muted">Examples: regulation, legislation, knowledge, technology, AI, networking</p>
@@ -89,6 +87,7 @@ updatePoll();
         </div>
     </div>
     <button type="submit" class="btn btn-success">Save Interests</button>
+    <a href="{{ url_for('interests_table') }}" class="btn btn-outline-dark mt-3">View Table</a>
 </form>
 
 <hr>
@@ -120,8 +119,31 @@ function loadWordCloud() {
 loadWordCloud();
 </script>
 
-<hr>
 
+
+<!-- Exhibit Info Section -->
+<div class="card">
+  <div class="card-body">
+    <h4>Exhibit Stalls</h4>
+    <h5>Stall A</h5>
+    <ul>
+      <li>Point 1 about Stall A</li>
+      <li>Point 2 about Stall A</li>
+    </ul>
+
+    <h5>Stall B</h5>
+    <ul>
+      <li>Point 1 about Stall B</li>
+      <li>Point 2 about Stall B</li>
+    </ul>
+
+    <h5>Stall C</h5>
+    <ul>
+      <li>Point 1 about Stall C</li>
+      <li>Point 2 about Stall C</li>
+    </ul>
+  </div>
+</div>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     const checkboxes = document.querySelectorAll("input[name='options']");
@@ -149,60 +171,5 @@ evtSource.onmessage = function(event) {
     }
 };
 </script>
-
-
-<!-- Who's in the Room -->
-<div class="card mb-4">
-  <div class="card-body">
-    <h4>Who's in the Room?</h4>
-    <canvas id="roomChart"></canvas>
-  </div>
-</div>
-
-<script>
-async function loadInteractiveSessionData() {
-    const res = await fetch("/interactive_session_data");
-    const data = await res.json();
-
-    // --- Who's in the room ---
-    const roomCtx = document.getElementById("roomChart").getContext("2d");
-    new Chart(roomCtx, {
-        type: "pie",
-        data: {
-            labels: Object.keys(data.room_data),
-            datasets: [{
-                data: Object.values(data.room_data),
-                backgroundColor: ["#4e79a7", "#f28e2b", "#e15759", "#76b7b2", "#59a14f"]
-            }]
-        }
-    });
-}
-// Load once on page load
-loadInteractiveSessionData();
-</script>
-<hr>
-
-<!-- Exhibit Info Section -->
-<div class="card">
-  <div class="card-body">
-    <h4>Exhibit Stalls</h4>
-    <h5>Stall A</h5>
-    <ul>
-      <li>Point 1 about Stall A</li>
-      <li>Point 2 about Stall A</li>
-    </ul>
-
-    <h5>Stall B</h5>
-    <ul>
-      <li>Point 1 about Stall B</li>
-      <li>Point 2 about Stall B</li>
-    </ul>
-
-    <h5>Stall C</h5>
-    <ul>
-      <li>Point 1 about Stall C</li>
-      <li>Point 2 about Stall C</li>
-    </ul>
-  </div>
-</div>
 {% endblock %}
+

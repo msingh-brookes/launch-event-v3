@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>All Votes (Admin View)</h2>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>User ID</th>
+      <th>Option</th>
+      <th>Timestamp</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in rows %}
+    <tr>
+      <td>{{ row['username'] }}</td>
+      <td>{{ row['user_id'] }}</td>
+      <td>{{ row['option'] }}</td>
+      <td>{{ row['timestamp'] }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<a href="{{ url_for('interactive_session_admin') }}" class="btn btn-secondary mt-3">Back</a>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5" style="max-width: 500px;">
+    <h2 class="mb-4 text-center">Attendee Login</h2>
+
+    {% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+
+    <form method="POST">
+        <div class="mb-3">
+            <label class="form-label">Event Passkey</label>
+            <input type="password" class="form-control" name="passkey" placeholder="Enter passkey" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">First Name</label>
+            <input type="text" class="form-control" name="first_name" placeholder="Your first name" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Email Address</label>
+            <input type="text" class="form-control" name="last_name" placeholder="Your email address">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Organisation Type</label>
+            <select class="form-select" name="organisation" required>
+                <option value="academia">Academia</option>
+                <option value="trade_body">Trade Body</option>
+                <option value="industry">Industry (retail, fulfilment centres, manufacturers etc)</option>
+                <option value="government">Government Agency</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Join Event</button>
+    </form>
+
+    <!---<hr class="my-4">
+    <div class="text-center">
+        <small>Already registered? <a href="{{ url_for('login_attendee_quick') }}">Login here</a></small>
+    </div>
+    --->
+    <hr class="my-4">
+    <div class="text-center">
+        <small>Are you an admin? <a href="{{ url_for('login_admin') }}">Login here</a></small>
+    </div>
+</div>
+{% endblock %}

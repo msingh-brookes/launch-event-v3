@@ -31,7 +31,7 @@
     </style>
 </head>
 <body>
-    <h1>Hello, {{ username }}</h1>
+    <h1>Hello, {{ g.user['first_name'] }}</h1>
     <div class="nav-links">
         <a href="/questions">Ask a Question</a>
         {% if current_user.is_admin %}
